@@ -9,15 +9,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TblItem {
-    private static List<Item> data = new ArrayList<>(
-            Arrays.asList()
-    );
+    private static List<Item> data = new ArrayList<>();
 
     public static List<Item> getData() {
         return data;
     }
 
-    public static void addData (Item item) {data.add(0, item);}
+    public static void addData (Item item) {
+        data.add(0, item);
+    }
 
     public static void updateData (Item item) {
         data.forEach(d -> {if (d.getId() == item.getId()) data.set(data.indexOf(d), item);});

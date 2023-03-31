@@ -42,24 +42,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="radio" />
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <CheckBox
                 android:id="@+id/java"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Java" />
+                android:text="J" />
 
             <CheckBox
                 android:id="@+id/python"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Python" />
+                android:text="P" />
 
             <CheckBox
                 android:id="@+id/golang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Golang" />
+                android:text="G" />
+            </LinearLayout>
         </LinearLayout>
         <ImageButton
             android:id="@+id/btnRemove"
