@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Thuc_Hanh_01</string>
+    <string name="FORM_ADD">Form add item</string>
+    <string name="FORM_UPDATE">Form update item</string>
+    <string name="message_error_empty">Trường này không được để chống</string>
+    <string name="message_error_format_date">Không đúng định dạng ngày/tháng/năm</string>
+    <string name="message_add_success">Thêm mới thành công</string>
+    <string name="message_update_success">Sửa thành công</string>
     <string-array name="country">
         <item>Việt Nam</item>
         <item>Lào</item>

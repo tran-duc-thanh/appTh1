@@ -70,6 +70,7 @@
         <RadioButton
             android:id="@+id/male"
             android:text="male"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -137,12 +138,15 @@
         app:layout_constraintTop_toBottomOf="@id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_margin="10dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

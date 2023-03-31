@@ -44,10 +44,22 @@
                 android:text="radio" />
 
             <CheckBox
-                android:id="@+id/checkbox"
+                android:id="@+id/java"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="checkbox" />
+                android:text="Java" />
+
+            <CheckBox
+                android:id="@+id/python"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Python" />
+
+            <CheckBox
+                android:id="@+id/golang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Golang" />
         </LinearLayout>
         <ImageButton
             android:id="@+id/btnRemove"

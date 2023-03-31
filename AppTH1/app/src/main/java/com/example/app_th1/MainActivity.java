@@ -1,18 +1,31 @@
 package com.example.app_th1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.example.app_th1.dbFake.TblItem;
+import com.example.app_th1.model.Item;
+import com.example.app_th1.model.ItemAdapter;
 import com.example.app_th1.model.SpinnerAdapter;
+import com.example.app_th1.utils.DataUtils;
+import com.example.app_th1.utils.DateUtils;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemListener {
+
+    private int idUpdate;
 
     private Spinner spinnerImg;
     private Spinner spinnerText;
@@ -22,11 +35,57 @@ public class MainActivity extends AppCompatActivity {
     private Button add, update;
     private RecyclerView recyclerView;
 
+    private ItemAdapter itemAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        add.setOnClickListener(view -> addItem(getDataInForm()));
+    }
+
+    private void addItem(Item item) {
+        if (checkAllFields()) {
+            if (DataUtils.isNullOrEmpty(item.getId())) {
+                item.setId(++Item.count);
+                itemAdapter.addItem(item);
+                createAdapter(itemAdapter, TblItem.getData());
+                Toast.makeText(this, getResources().getString(R.string.message_add_success), Toast.LENGTH_SHORT).show();
+            } else {
+                itemAdapter.setItem(item);
+                createAdapter(itemAdapter, TblItem.getData());
+                Toast.makeText(this, getResources().getString(R.string.message_update_success), Toast.LENGTH_LONG).show();
+            }
+            resetForm();
+        }
+    }
+
+    private boolean checkAllFields () {
+        if (DataUtils.isNullOrEmptyOrBlank(eName.getText().toString())) {
+            eName.setError(getResources().getString(R.string.message_error_empty));
+            return false;
+        }
+        if (DataUtils.isNullOrEmptyOrBlank(eDate.getText().toString())) {
+            eDate.setError(getResources().getString(R.string.message_error_empty));
+            return false;
+        }
+        return true;
+    }
+
+    private void resetForm() {
+        spinnerImg.setSelection(0);
+        spinnerText.setSelection(0);
+        eName.setText("");
+        eDate.setText("");
+        eDes.setText("");
+        male.setChecked(true);
+        java.setChecked(false);
+        python.setChecked(false);
+        golang.setChecked(false);
+
+        add.setEnabled(true);
+        update.setEnabled(false);
     }
 
     private void initView () {
@@ -46,5 +105,71 @@ public class MainActivity extends AppCompatActivity {
         add = findViewById(R.id.btnAdd);
         update = findViewById(R.id.btnUpdate);
         recyclerView = findViewById(R.id.recyclerView);
+        itemAdapter = new ItemAdapter(this);
+        itemAdapter.setItemListener(this);
+        createAdapter(itemAdapter, TblItem.getData());
+        update.setEnabled(false);
+    }
+
+    private void createAdapter (ItemAdapter adapter, List<Item> items) {
+        adapter.setItems(items);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClickItem(View view, int position) {
+        Item item = itemAdapter.getItem(position);
+        setDataInForm(item);
+    }
+
+    private void setDataInForm(Item item) {
+        idUpdate = item.getId();
+        spinnerImg.setSelection(SpinnerAdapter.getItemSelected(item.getImg()));
+        String[] months = getResources().getStringArray(R.array.month);
+        for (int i = 0; i < months.length; i++) {
+            if (months[i].equals(item.getMonth())) {
+                spinnerText.setSelection(i);
+                break;
+            }
+        }
+        eName.setText(item.getName());
+        eDate.setText(item.getDate());
+        eDes.setText(item.getDescription());
+        if ("male".equals(item.getGender())) {
+            male.setChecked(true);
+        }
+        if ("female".equals(item.getGender())) {
+            male.setChecked(true);
+        }
+        if ("both".equals(item.getGender())) {
+            male.setChecked(true);
+        }
+        item.getLanguages().forEach(l -> {
+            if ("Java".equals(l)) java.setChecked(true);
+            if ("Python".equals(l)) python.setChecked(true);
+            if ("Golang".equals(l)) golang.setChecked(true);
+        });
+        add.setEnabled(false);
+        update.setEnabled(true);
+    }
+
+    private Item getDataInForm () {
+        Item item = new Item();
+        item.setImg((Integer) spinnerImg.getSelectedItem());
+        item.setMonth((String) spinnerText.getSelectedItem());
+        item.setName(eName.getText().toString());
+        item.setDate(eDate.getText().toString());
+        item.setDescription(eDes.getText().toString());
+        if (male.isChecked()) item.setGender("male");
+        if (female.isChecked()) item.setGender("female");
+        if (both.isChecked()) item.setGender("both");
+        List<String> l = new ArrayList<>();
+        if (java.isChecked()) l.add("Java");
+        if (python.isChecked()) l.add("Python");
+        if (golang.isChecked()) l.add("Golang");
+        item.setLanguages(l);
+        return item;
     }
 }

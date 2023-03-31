@@ -11,7 +11,7 @@ import com.example.app_th1.R;
 
 public class SpinnerAdapter extends BaseAdapter {
 
-    private final int[] images = new int[]{R.drawable.cat1, R.drawable.cat2, R.drawable.cat3, R.drawable.cat4,
+    public static final int[] images = new int[]{R.drawable.cat1, R.drawable.cat2, R.drawable.cat3, R.drawable.cat4,
             R.drawable.cat5, R.drawable.cat6, R.drawable.cat7, R.drawable.cat8, R.drawable.cat9,
             R.drawable.cat10};
 
@@ -31,10 +31,18 @@ public class SpinnerAdapter extends BaseAdapter {
         return images[i];
     }
 
+    public static int getItemSelected (int id) {
+        for (int i= 0; i < images.length; i++) {
+            if (images[i] == id) return i;
+        }
+        return 0;
+    }
+
     @Override
     public long getItemId(int i) {
         return i;
     }
+
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
