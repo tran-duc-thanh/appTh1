@@ -43,20 +43,15 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
         setContentView(R.layout.activity_main);
         initView();
         add.setOnClickListener(view -> addItem(getDataInForm()));
+//        update
     }
 
     private void addItem(Item item) {
         if (checkAllFields()) {
-            if (DataUtils.isNullOrEmpty(item.getId())) {
-                item.setId(++Item.count);
-                itemAdapter.addItem(item);
-                createAdapter(itemAdapter, TblItem.getData());
-                Toast.makeText(this, getResources().getString(R.string.message_add_success), Toast.LENGTH_SHORT).show();
-            } else {
-                itemAdapter.setItem(item);
-                createAdapter(itemAdapter, TblItem.getData());
-                Toast.makeText(this, getResources().getString(R.string.message_update_success), Toast.LENGTH_LONG).show();
-            }
+            item.setId(++Item.count);
+            itemAdapter.addItem(item);
+            createAdapter(itemAdapter, TblItem.getData());
+            Toast.makeText(this, getResources().getString(R.string.message_add_success), Toast.LENGTH_SHORT).show();
             resetForm();
         }
     }
