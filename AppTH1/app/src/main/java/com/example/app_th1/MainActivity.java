@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -43,7 +45,18 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
         setContentView(R.layout.activity_main);
         initView();
         add.setOnClickListener(view -> addItem(getDataInForm()));
-//        update
+        update.setOnClickListener(view -> updateItem(getDataInForm()));
+        search.addTextChangedListener(doSearch());
+    }
+
+    private void updateItem(Item item) {
+        if (checkAllFields()) {
+            item.setId(idUpdate);
+            itemAdapter.setItem(item);
+            createAdapter(itemAdapter, TblItem.getData());
+            Toast.makeText(this, getResources().getString(R.string.message_add_success), Toast.LENGTH_SHORT).show();
+            resetForm();
+        }
     }
 
     private void addItem(Item item) {
@@ -166,5 +179,33 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
         if (golang.isChecked()) l.add("Golang");
         item.setLanguages(l);
         return item;
+    }
+
+    private List<Item> doSearch (String keySearch) {
+        List<Item> itemsSearch = new ArrayList<>();
+        if (DataUtils.isNullOrEmptyOrBlank(keySearch) || DataUtils.isNullOrEmpty(itemAdapter.getItems()))
+            return TblItem.getData();
+        itemAdapter.getItems().forEach(item -> {
+            if (item.getName().toLowerCase().contains(keySearch.toLowerCase()))
+                itemsSearch.add(item);
+        });
+        return itemsSearch;
+    }
+
+    private TextWatcher doSearch () {
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                createAdapter(itemAdapter, doSearch(search.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        };
     }
 }
