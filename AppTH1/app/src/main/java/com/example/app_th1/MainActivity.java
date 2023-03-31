@@ -80,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
             eDate.setError(getResources().getString(R.string.message_error_empty));
             return false;
         }
+        if (!DateUtils.isValidate(eDate.getText().toString())) {
+            eDate.setError(getResources().getString(R.string.message_error_format_date));
+            return false;
+        }
         return true;
     }
 
