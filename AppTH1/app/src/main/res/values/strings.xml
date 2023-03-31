@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Thuc_Hanh_01</string>
+    <string-array name="country">
+        <item>Việt Nam</item>
+        <item>Lào</item>
+        <item>Hàn Quốc</item>
+        <item>Nhật Bản</item>
+    </string-array>
+    <string-array name="month">
+        <item>1</item>
+        <item>3</item>
+        <item>9</item>
+        <item>12</item>
+    </string-array>
+</resources>
