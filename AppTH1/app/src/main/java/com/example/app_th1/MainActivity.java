@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
         add.setOnClickListener(view -> addItem(getDataInForm()));
         update.setOnClickListener(view -> updateItem(getDataInForm()));
         search.addTextChangedListener(doSearch());
+        eDate.setOnClickListener(view -> createDatePickerDialog().show());
     }
 
     private void updateItem(Item item) {
@@ -207,5 +209,11 @@ public class MainActivity extends AppCompatActivity implements ItemAdapter.ItemL
             public void afterTextChanged(Editable editable) {
             }
         };
+    }
+
+    private DatePickerDialog createDatePickerDialog() {
+        return new DatePickerDialog(this,
+                (datePicker, year, month, day) -> eDate.setText(String.format("%d/%d/%d", day, month, year)),
+                DateUtils.getYear(), DateUtils.getMonth(), DateUtils.getDay());
     }
 }
